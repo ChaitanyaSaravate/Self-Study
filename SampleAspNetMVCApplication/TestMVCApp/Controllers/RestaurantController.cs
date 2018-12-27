@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
+﻿using System.Linq;
 using System.Web.Mvc;
 using TestMVCApp.Models;
 
@@ -11,10 +8,37 @@ namespace TestMVCApp.Controllers
 	{
 		RestaurantContext dbContext = new RestaurantContext();
 
-		public ActionResult Index()
+		public ActionResult Autocomplete(string term) // It's named "term" because JQuery UI autocompelte feature demands it
 		{
-			List<Restaurant> restaurants = dbContext.Restaurants.ToList();
-			return View(restaurants);
+			var matchingResults = this.dbContext.Restaurants.Where(r => r.Name.StartsWith(term)).Select(r => new
+			{
+				label = r.Name // It's named label because JQuery UI autocompelte feature demands it
+			}).Take(3);
+
+			return Json(matchingResults, JsonRequestBehavior.AllowGet);
+		}
+
+		public ActionResult Index(string searchTerm = null)
+		{
+			var matchingResults = this.dbContext.Restaurants
+				.Where(r => searchTerm == null || r.Name.Contains(searchTerm))
+				.OrderByDescending(r => r.Reviews.Average(rev => rev.Rating))
+				.Select(r => new RestaurantViewModel
+				{
+					Id = r.Id,
+					Address = r.Address,
+					City = r.City,
+					Name = r.Name,
+					TotalReviews = r.Reviews.Count,
+					AverageRating = r.Reviews.Average(rev => rev.Rating)
+				});
+
+			if (Request.IsAjaxRequest())
+			{
+				return PartialView("_restaurantsList", matchingResults);
+			}
+			
+			return View(matchingResults);
 		}
 
 		public ActionResult Details(int id)

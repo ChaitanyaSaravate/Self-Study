@@ -8,6 +8,16 @@ namespace TestMVCApp
 		// For more information on bundling, visit https://go.microsoft.com/fwlink/?LinkId=301862
 		public static void RegisterBundles(BundleCollection bundles)
 		{
+			bundles.Add(new ScriptBundle("~/bundles/myOwnBundle").Include(
+				"~/Scripts/jquery-{version}.js",
+				"~/Scripts/jquery.validate*",
+				"~/Scripts/jquery-ui.js",
+				"~/Scripts/jquery-ui-{version}.js",
+				"~/Scripts/jquery-ui-{version}.min.js",
+				"~/Scripts/jquery.unobtrusive-ajax.js",
+				"~/Scripts/jquery.unobtrusive-ajax.min.js",
+				"~/Scripts/myOwnAttribute.js"));
+
 			bundles.Add(new ScriptBundle("~/bundles/jquery").Include(
 						"~/Scripts/jquery-{version}.js"));
 

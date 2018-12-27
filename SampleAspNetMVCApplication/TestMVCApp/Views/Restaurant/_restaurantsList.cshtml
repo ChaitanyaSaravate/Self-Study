@@ -1,0 +1,49 @@
+﻿@model IEnumerable<TestMVCApp.Models.RestaurantViewModel>
+<div id="restaurantsList">
+	<table class="table">
+		<tr>
+			<th>
+				@Html.DisplayNameFor(model => model.Name)
+			</th>
+			<th>
+				@Html.DisplayNameFor(model => model.Address)
+			</th>
+			<th>
+				@Html.DisplayNameFor(model => model.City)
+			</th>
+			<th>
+				@Html.DisplayNameFor(model => model.TotalReviews)
+			</th>
+			<th>
+				@Html.DisplayNameFor(model => model.AverageRating)
+			</th>
+		</tr>
+
+		@foreach (var item in Model)
+		{
+			<tr>
+				<td>
+					@Html.DisplayFor(modelItem => item.Name)
+				</td>
+				<td>
+					@Html.DisplayFor(modelItem => item.Address)
+				</td>
+				<td>
+					@Html.DisplayFor(modelItem => item.City)
+				</td>
+				<td>
+					@Html.DisplayFor(modelItem => item.TotalReviews)
+				</td>
+				<td>
+					@Html.DisplayFor(modelItem => item.AverageRating)
+				</td>
+				<td>
+					@Html.ActionLink("Edit", "Edit", new { id = item.Id }) |
+					@Html.ActionLink("Reviews", "Index", "Reviews", new { id = item.Id }, null) |
+					@Html.ActionLink("Delete", "Delete", new { id = item.Id })
+				</td>
+			</tr>
+		}
+
+	</table>
+</div>

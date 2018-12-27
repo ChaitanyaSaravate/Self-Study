@@ -1,3 +1,5 @@
+using TestMVCApp.Models;
+
 namespace TestMVCApp.Migrations
 {
     using System;
@@ -27,6 +29,17 @@ namespace TestMVCApp.Migrations
             //      new Person { FullName = "Rowan Miller" }
             //    );
             //
+
+	        for (int i = 10; i < 1000; i++)
+	        {
+		        context.Restaurants.AddOrUpdate(restaurant => restaurant.Id, new Restaurant
+				{
+					Address = "J M Road",
+					Id = i,
+					Name = "Test Restaurant - " + i,
+					City = "Pune"
+				});
+	        }
         }
     }
 }

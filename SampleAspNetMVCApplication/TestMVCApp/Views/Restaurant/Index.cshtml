@@ -1,4 +1,4 @@
-﻿@model IEnumerable<TestMVCApp.Models.Restaurant>
+﻿@model IEnumerable<TestMVCApp.Models.RestaurantViewModel>
 
 @{
 	ViewBag.Title = "Index";
@@ -10,38 +10,24 @@
 <p>
 	@Html.ActionLink("Create New", "Create")
 </p>
-<table class="table">
-	<tr>
-		<th>
-			@Html.DisplayNameFor(model => model.Name)
-		</th>
-		<th>
-			@Html.DisplayNameFor(model => model.Address)
-		</th>
-		<th>
-			@Html.DisplayNameFor(model => model.City)
-		</th>
-		<th></th>
-	</tr>
+<p></p>
 
-	@foreach (var item in Model)
+@*@using (@Ajax.BeginForm(new AjaxOptions
 	{
-		<tr>
-			<td>
-				@Html.DisplayFor(modelItem => item.Name)
-			</td>
-			<td>
-				@Html.DisplayFor(modelItem => item.Address)
-			</td>
-			<td>
-				@Html.DisplayFor(modelItem => item.City)
-			</td>
-			<td>
-				@Html.ActionLink("Edit", "Edit", new { id = item.Id }) |
-				@Html.ActionLink("Reviews", "Index", "Reviews", new { id = item.Id }, null) |
-				@Html.ActionLink("Delete", "Delete", new { id=item.Id })
-			</td>
-		</tr>
-	}
+		HttpMethod = "get",
+		InsertionMode = InsertionMode.Replace,
+		UpdateTargetId = "restaurantsList"
+	}))
+	{
+		<input type="search" name="searchTerm" style="margin-right: 5px"  />
+		<input type="submit" value="Search by Name" />
+	}*@
 
-</table>
+<form method="get" data-myOwnAttribute-ajax="true" data-myOwnAttribute-target="#restaurantsList" action="@Url.Action("Index")">
+	<input type="search" name="searchTerm" style="margin-right: 5px" data-myOwnAttribute-autocomplete="@Url.Action("Autocomplete")" />
+	<input type="submit" value="Search by Name" />
+</form>
+<p></p>
+
+@Html.Partial("_restaurantsList", @Model)
+
