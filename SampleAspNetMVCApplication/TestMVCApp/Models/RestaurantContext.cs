@@ -1,8 +1,9 @@
-﻿using System.Data.Entity;
+﻿using System.Collections.Generic;
+using System.Data.Entity;
 
 namespace TestMVCApp.Models
 {
-	public class RestaurantContext : DbContext
+	public class RestaurantContext : DbContext, IRestaurantContext
 	{
 		public DbSet<Restaurant> Restaurants { get; set; }
 
@@ -12,5 +13,10 @@ namespace TestMVCApp.Models
 		}
 
 		public System.Data.Entity.DbSet<TestMVCApp.Models.RestaurantReview> RestaurantReviews { get; set; }
+
+		void IRestaurantContext.SaveChanges()
+		{
+			((DbContext)this).SaveChanges();
+		}
 	}
 }

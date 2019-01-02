@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System.Data.Entity;
+using System.Linq;
 using System.Web.Mvc;
 using TestMVCApp.Models;
 
@@ -6,7 +7,17 @@ namespace TestMVCApp.Controllers
 {
 	public class RestaurantController : Controller
 	{
-		RestaurantContext dbContext = new RestaurantContext();
+		private IRestaurantContext dbContext = null;
+
+		public RestaurantController()
+		{
+			dbContext = new RestaurantContext();
+		}
+
+		public RestaurantController(IRestaurantContext dbContext)
+		{
+			this.dbContext = dbContext;
+		}
 
 		public ActionResult Autocomplete(string term) // It's named "term" because JQuery UI autocompelte feature demands it
 		{
@@ -22,7 +33,7 @@ namespace TestMVCApp.Controllers
 		{
 			var matchingResults = this.dbContext.Restaurants
 				.Where(r => searchTerm == null || r.Name.Contains(searchTerm))
-				.OrderByDescending(r => r.Reviews.Average(rev => rev.Rating))
+				.OrderByDescending(r => r.Reviews.Count > 0 ? r.Reviews.Average(rev => rev.Rating) : 0)
 				.Select(r => new RestaurantViewModel
 				{
 					Id = r.Id,
@@ -30,7 +41,7 @@ namespace TestMVCApp.Controllers
 					City = r.City,
 					Name = r.Name,
 					TotalReviews = r.Reviews.Count,
-					AverageRating = r.Reviews.Average(rev => rev.Rating)
+					AverageRating = r.Reviews.Count > 0 ? r.Reviews.Average(rev => rev.Rating) : 0
 				});
 
 			if (Request.IsAjaxRequest())
@@ -51,6 +62,7 @@ namespace TestMVCApp.Controllers
 			Restaurant restaurant = this.dbContext.Restaurants.Find(new object[] { id });
 			return View(restaurant);
 		}
+
 		[HttpPost]
 		public ActionResult Update([Bind(Exclude = "Name")]Restaurant restaurant)
 		{
