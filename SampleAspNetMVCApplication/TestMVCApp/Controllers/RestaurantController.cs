@@ -14,6 +14,7 @@ namespace TestMVCApp.Controllers
 			dbContext = new RestaurantContext();
 		}
 
+		// This constructor is used in unit testing.
 		public RestaurantController(IRestaurantContext dbContext)
 		{
 			this.dbContext = dbContext;
