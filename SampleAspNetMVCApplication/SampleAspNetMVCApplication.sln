@@ -7,6 +7,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestMVCApp", "TestMVCApp\Te
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestMVCApp.Tests", "TestMVCApp.Tests\TestMVCApp.Tests.csproj", "{60467953-9C3B-4694-8757-D22C307400D7}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Videos", "Videos\Videos.csproj", "{1DB4823E-C3FB-47EC-9E3A-C021BBFCED8C}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,6 +23,10 @@ Global
 		{60467953-9C3B-4694-8757-D22C307400D7}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{60467953-9C3B-4694-8757-D22C307400D7}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{60467953-9C3B-4694-8757-D22C307400D7}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1DB4823E-C3FB-47EC-9E3A-C021BBFCED8C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1DB4823E-C3FB-47EC-9E3A-C021BBFCED8C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1DB4823E-C3FB-47EC-9E3A-C021BBFCED8C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1DB4823E-C3FB-47EC-9E3A-C021BBFCED8C}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
