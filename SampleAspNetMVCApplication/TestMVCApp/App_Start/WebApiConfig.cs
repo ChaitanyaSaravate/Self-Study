@@ -16,6 +16,12 @@ namespace RestaurantServices
 				routeTemplate: "api/{controller}/{id}",
 				defaults: new { id = RouteParameter.Optional }
 			);
+
+			config.Routes.MapHttpRoute(
+				name: "ActionRoute",
+				routeTemplate: "api/{controller}/{action}/{city}",
+				defaults: new { city = RouteParameter.Optional }
+			);
 		}
 	}
 }

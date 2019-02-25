@@ -1,6 +1,7 @@
-﻿using System.Data.Entity;
-using System.Linq;
+﻿using System.Linq;
 using System.Web.Mvc;
+using Common.DAL;
+using Common.Models;
 using TestMVCApp.Models;
 
 namespace TestMVCApp.Controllers

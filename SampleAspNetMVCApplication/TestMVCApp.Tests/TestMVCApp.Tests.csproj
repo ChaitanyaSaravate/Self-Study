@@ -120,6 +120,10 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Common\Common.csproj">
+      <Project>{9c621363-f65a-4f6b-b02f-fa93c36165cd}</Project>
+      <Name>Common</Name>
+    </ProjectReference>
     <ProjectReference Include="..\TestMVCApp\TestMVCApp.csproj">
       <Project>{9AF665B2-FE99-4D1D-8725-7F279028D170}</Project>
       <Name>TestMVCApp</Name>

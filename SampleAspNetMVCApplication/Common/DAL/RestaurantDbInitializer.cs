@@ -1,10 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Data.Entity;
-using System.Linq;
-using System.Web;
+using Common.Models;
 
-namespace TestMVCApp.Models
+namespace Common.DAL
 {
 	public class RestaurantDbInitializer : DropCreateDatabaseIfModelChanges<RestaurantContext>
 	{

@@ -1,7 +1,7 @@
-﻿using System.Collections.Generic;
-using System.Data.Entity;
+﻿using System.Data.Entity;
+using Common.Models;
 
-namespace TestMVCApp.Models
+namespace Common.DAL
 {
 	public class RestaurantContext : DbContext, IRestaurantContext
 	{
@@ -12,7 +12,7 @@ namespace TestMVCApp.Models
 			Database.SetInitializer(new RestaurantDbInitializer());
 		}
 
-		public System.Data.Entity.DbSet<TestMVCApp.Models.RestaurantReview> RestaurantReviews { get; set; }
+		public System.Data.Entity.DbSet<RestaurantReview> RestaurantReviews { get; set; }
 
 		void IRestaurantContext.SaveChanges()
 		{
