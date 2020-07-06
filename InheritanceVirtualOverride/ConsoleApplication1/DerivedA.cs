@@ -5,7 +5,7 @@ using System.Text;
 
 namespace ConsoleApplication1
 {
-    class DerivedA : Base
+    public class DerivedA : Base
     {
         public int Hi { get; set; }
         

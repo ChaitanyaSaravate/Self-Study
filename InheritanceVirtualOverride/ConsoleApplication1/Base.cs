@@ -5,7 +5,7 @@ using System.Text;
 
 namespace ConsoleApplication1
 {
-	class Base
+	public class Base
 	{
 		public Base()
 		{
@@ -81,4 +81,23 @@ namespace ConsoleApplication1
 
 		public virtual void foo(string s = "base") { Console.WriteLine("base " + s); }
 	}
+}
+
+namespace Learning 
+{
+
+    public class Base
+    {
+    // Base class
+    }
+
+    public class DerivedA : Base
+    {
+        // Level 1 Derived class
+    }
+
+    public class DervivedB : DerivedA
+    {
+        // Level 2 Dervived class
+    }
 }

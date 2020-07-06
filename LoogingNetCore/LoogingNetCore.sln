@@ -1,0 +1,55 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.29519.181
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LoggingNetCore", "LoogingNetCore\LoggingNetCore.csproj", "{E931DAB1-9B3E-4125-848F-271C8AEB9BC4}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Logging.Abstractions", "Logging.Abstractions\Logging.Abstractions.csproj", "{6ED27C53-FDBB-4CF5-AA86-52DDC4DDA494}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Logging.SerilogClient", "Logging.Client\Logging.SerilogClient.csproj", "{E7651BAB-6F4A-4CFF-BAF6-A1589FA14961}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WebApplication1", "WebApplication1\WebApplication1.csproj", "{36299084-41E8-437C-B42F-9D647BFD4745}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WcfServices", "WcfServices\WcfServices.csproj", "{FA4F8252-D1C7-43FE-8D1B-8CF949A1FB57}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebServiceContracts", "WebServiceContracts\WebServiceContracts.csproj", "{987064A4-1B40-4A41-9561-82D4DF0BF972}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{E931DAB1-9B3E-4125-848F-271C8AEB9BC4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E931DAB1-9B3E-4125-848F-271C8AEB9BC4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E931DAB1-9B3E-4125-848F-271C8AEB9BC4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E931DAB1-9B3E-4125-848F-271C8AEB9BC4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6ED27C53-FDBB-4CF5-AA86-52DDC4DDA494}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6ED27C53-FDBB-4CF5-AA86-52DDC4DDA494}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6ED27C53-FDBB-4CF5-AA86-52DDC4DDA494}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6ED27C53-FDBB-4CF5-AA86-52DDC4DDA494}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E7651BAB-6F4A-4CFF-BAF6-A1589FA14961}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E7651BAB-6F4A-4CFF-BAF6-A1589FA14961}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E7651BAB-6F4A-4CFF-BAF6-A1589FA14961}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E7651BAB-6F4A-4CFF-BAF6-A1589FA14961}.Release|Any CPU.Build.0 = Release|Any CPU
+		{36299084-41E8-437C-B42F-9D647BFD4745}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{36299084-41E8-437C-B42F-9D647BFD4745}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{36299084-41E8-437C-B42F-9D647BFD4745}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{36299084-41E8-437C-B42F-9D647BFD4745}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FA4F8252-D1C7-43FE-8D1B-8CF949A1FB57}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FA4F8252-D1C7-43FE-8D1B-8CF949A1FB57}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FA4F8252-D1C7-43FE-8D1B-8CF949A1FB57}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FA4F8252-D1C7-43FE-8D1B-8CF949A1FB57}.Release|Any CPU.Build.0 = Release|Any CPU
+		{987064A4-1B40-4A41-9561-82D4DF0BF972}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{987064A4-1B40-4A41-9561-82D4DF0BF972}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{987064A4-1B40-4A41-9561-82D4DF0BF972}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{987064A4-1B40-4A41-9561-82D4DF0BF972}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {D69F1E1E-9635-4DFA-9B99-95A4D669BD9F}
+	EndGlobalSection
+EndGlobal

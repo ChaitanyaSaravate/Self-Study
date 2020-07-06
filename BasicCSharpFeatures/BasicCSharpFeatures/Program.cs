@@ -70,8 +70,8 @@ namespace BasicCSharpFeatures
             string[] resources = Assembly.GetExecutingAssembly().GetManifestResourceNames();
             string xmlResource = resources.Where(res => res.EndsWith(".xml")).SingleOrDefault();
 
-			#endregion
-
+            #endregion
+            
             Console.ReadLine();
         }
     }

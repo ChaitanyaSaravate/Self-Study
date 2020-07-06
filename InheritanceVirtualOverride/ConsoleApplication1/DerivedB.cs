@@ -5,7 +5,7 @@ using System.Text;
 
 namespace ConsoleApplication1
 {
-    class DerivedB : DerivedA
+    public class DerivedB : DerivedA
     {
         /// <summary>
         /// Overrides base class's method
@@ -19,7 +19,7 @@ namespace ConsoleApplication1
         }
 
         /// <summary>
-        /// Another virtual method of DerivedA class which is overriden here. 
+        /// Another virtual method of DerivedA class which is overriden here.
         /// </summary>
         public override void VirtualMethod6()
         {
