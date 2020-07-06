@@ -1,7 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using Abstractions.Internal.Framework;
 using Abstractions.Internal.Framework.Entities;
 
@@ -31,6 +29,29 @@ namespace DAL
                 CullingEndpoints = new List<string> { "students/grades" }
             };
 
+            var absencseEntity = new EduEntity
+            {
+                Id = 3,
+                Name = "Absence",
+                EntityType = SupportedEduEntityTypes.Absence,
+                ArchiveEndpoints = new List<string> { "students/absences" },
+                CullingEndpoints = new List<string> { "students/absences" }
+            };
+
+            // Group where individual object should be saved in separate file.
+            entityGroups.Add(new EduEntityGroup
+            {
+                SchoolDomain = SupportedSchoolDomains.CompulsorySchool,
+                EntityGroup = SupportedEduEntityGroups.Student,
+                PerformOperationOnGroupLevel = false,
+                Entities = new List<EduEntity>
+                {
+                    gradesEntity,
+                    studentEntity,
+                    absencseEntity
+                }
+            });
+
             var measuresEntity = new EduEntity
             {
                 Id = 1,
@@ -49,21 +70,12 @@ namespace DAL
                 CullingEndpoints = new List<string> { "kaa/reminders" }
             };
 
-            entityGroups.Add(new EduEntityGroup
-            {
-                SchoolDomain = SupportedSchoolDomains.CompulsorySchool,
-                EntityGroup = SupportedEduEntityGroups.Student,
-                Entities = new List<EduEntity>
-                {
-                    studentEntity,
-                    gradesEntity
-                }
-            });
-
+            // Group where all objects should be saved in one file.
             entityGroups.Add(new EduEntityGroup
             {
                 SchoolDomain = SupportedSchoolDomains.KAA,
                 EntityGroup = SupportedEduEntityGroups.KAA,
+                PerformOperationOnGroupLevel = true,
                 Entities = new List<EduEntity>
                 {
                     measuresEntity,
@@ -93,8 +105,12 @@ namespace DAL
 
             var entityGroup = MasterData.GetEduEntityGroup(compulsoryStudentSelection.EduEntityGroup);
 
-            compulsoryStudentSelection.EntitiesToArchiveCull.Add(entityGroup.Entities[0]);
-            compulsoryStudentSelection.EntitiesToArchiveCull.Add(entityGroup.Entities[1]);
+            foreach (var entity in entityGroup.Entities)
+            {
+               compulsoryStudentSelection.EntitiesToArchiveCull.Add(entity);
+               //ToDO: Remove this break when you want to add more than one entities.
+               //break;
+            }
             compulsoryStudentSelection.SchoolDomain = entityGroup.SchoolDomain;
 
             selectionDefinitions.Add(compulsoryStudentSelection);
@@ -110,8 +126,10 @@ namespace DAL
 
             var kaaEntityGroup = MasterData.GetEduEntityGroup(kaaSelection.EduEntityGroup);
 
-            kaaSelection.EntitiesToArchiveCull.Add(kaaEntityGroup.Entities[0]);
-            kaaSelection.EntitiesToArchiveCull.Add(kaaEntityGroup.Entities[1]);
+            foreach (var entity in kaaEntityGroup.Entities)
+            {
+                kaaSelection.EntitiesToArchiveCull.Add(entity);
+            }
             kaaSelection.SchoolDomain = kaaEntityGroup.SchoolDomain;
 
             selectionDefinitions.Add(kaaSelection);

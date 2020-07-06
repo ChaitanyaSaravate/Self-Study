@@ -1,15 +1,9 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Abstractions.Public.CompulsorySchool;
+using Abstractions.Public.CompulsorySchool.ServiceContracts;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Logging;
 
 namespace DataProviderApi
 {
@@ -29,6 +23,7 @@ namespace DataProviderApi
 
             services.AddTransient<IArchiveStudent, StudentService>();
             services.AddTransient<IArchiveGrades, GradesService>();
+            services.AddTransient<IArchiveAbsences, AbsencesService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

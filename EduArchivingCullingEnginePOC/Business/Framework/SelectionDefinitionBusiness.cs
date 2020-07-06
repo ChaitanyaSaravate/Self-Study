@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using System.Net.Http;
 using Abstractions.Internal.Framework;
 using Abstractions.Internal.Framework.Entities;
 using Abstractions.Internal.Framework.Interfaces;

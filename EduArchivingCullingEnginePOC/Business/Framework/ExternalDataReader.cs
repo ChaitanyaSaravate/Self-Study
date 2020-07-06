@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Net.Http;
@@ -15,14 +16,15 @@ namespace Business.Framework
     {
         private readonly IHttpClientFactory _httpClientFactory;
         private readonly IHostingEnvironment _hostingEnvironment;
+        private readonly InputOutputFilesManager _inputOutputFilesManager;
 
-        public ExternalDataReader(IHttpClientFactory httpClientFactory, IHostingEnvironment hostingEnvironment)
+        public ExternalDataReader(IHttpClientFactory httpClientFactory, InputOutputFilesManager inputOutputFilesManager)
         {
             _httpClientFactory = httpClientFactory;
-            _hostingEnvironment = hostingEnvironment;
+            _inputOutputFilesManager = inputOutputFilesManager;
         }
 
-        public async Task<bool> ReadData<T>(T request, EduEntity entityToArchive)
+        public async Task<List<string>> ReadData<T>(T request, EduEntity entityToArchive)
         {
             try
             {
@@ -35,12 +37,18 @@ namespace Business.Framework
                     var requestString = JsonSerializer.Serialize<T>(request);
 
                     var content = new StringContent(requestString, Encoding.Default, "application/json");
+
+                    //TODO: It's calling one endpoint at present. You may have to call multiple endpoints.
                     var response = await httpClient.PostAsync(entityToArchive.ArchiveEndpoints.First(), content);
                     var result = await response.Content.ReadAsStringAsync();
-                    var fileStreamWriter = File.CreateText(_hostingEnvironment.ContentRootPath + $"{entityToArchive.Name}.json");
-                    fileStreamWriter.WriteLine(result);
-                    fileStreamWriter.Dispose();
-                    return true;
+
+                    var filePath = _inputOutputFilesManager.CreateInputDataFile(entityToArchive.Name, result);
+                   
+                    //TODO: Return list of files containing data only when the operation is successful.
+                    return new List<string>
+                    {
+                        filePath
+                    } ;
                 }
             }
             catch (Exception e)

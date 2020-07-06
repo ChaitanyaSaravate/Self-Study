@@ -11,6 +11,6 @@ namespace Abstractions.Internal.Framework.Interfaces
     /// </summary>
     public interface IDataReader
     {
-        Task<bool> ReadData<T>(T request, EduEntity entity);
+        Task<List<string>> ReadData<T>(T request, EduEntity entity);
     }
 }

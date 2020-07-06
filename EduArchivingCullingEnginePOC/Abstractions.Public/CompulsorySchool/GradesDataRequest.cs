@@ -2,7 +2,7 @@
 
 namespace Abstractions.Public.CompulsorySchool
 {
-    public class GetGradesRequest
+    public class GradesDataRequest : StudentArchiveDataRequest
     {
         public int GradeLessThan { get; set; }
     }

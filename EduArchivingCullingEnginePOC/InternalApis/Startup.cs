@@ -37,16 +37,18 @@ namespace InternalApis
             //TODO: Try to register all new interfaces and their implemntation automatically
             services.AddSingleton<ICriterionDataAccess, CriterionDataAccess>();
             services.AddSingleton<ArchiveHandlerFactory>();
-
+            services.AddSingleton<InputOutputFilesManager>();
 
             services.AddTransient<ISelectionDefinitionDataAccess, SelectionDefinitionDataAccess>();
             services.AddTransient<ISelectionDefinitionService, SelectionDefinitionBusiness>();
             services.AddTransient<SelectionExecutionHandler>();
+            services.AddTransient<ArchiveFileCreationHandler>();
+            services.AddTransient<CleanupHandler>();
             services.AddTransient<IDataReader, ExternalDataReader>();
 
 
-            services.AddScoped<CompulsorySchoolArchiveHandler>();
-            services.AddScoped<KAAArchiveHandler>();
+            services.AddTransient<CompulsorySchoolArchiveHandler>();
+            services.AddTransient<KAAArchiveHandler>();
 
             //services.AddSingleton<IArchive>(sp =>
             //{

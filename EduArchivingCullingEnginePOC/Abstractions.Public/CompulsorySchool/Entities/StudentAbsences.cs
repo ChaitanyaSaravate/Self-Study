@@ -7,8 +7,8 @@ namespace Abstractions.Public.CompulsorySchool.Entities
     /// <summary>
     /// Student Info With Grades
     /// </summary>
-    public class StudentGrades : StudentInfo
+    public class StudentAbsences : StudentInfo
     {
-        public List<Grade> Grades { get; set; }
+        public List<Absence> Absences { get; set; }
     }
 }

@@ -5,10 +5,12 @@ namespace Abstractions.Internal.Framework.Entities
 {
     public class EduEntityGroup
     {
-        public IList<EduEntity>  Entities { get; set; }
+        public IList<EduEntity> Entities { get; set; }
 
         public SupportedEduEntityGroups EntityGroup { get; set; }
 
         public SupportedSchoolDomains SchoolDomain { get; set; }
+
+        public bool PerformOperationOnGroupLevel { get; set; }
     }
 }

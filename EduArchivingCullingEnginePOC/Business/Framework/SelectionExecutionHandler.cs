@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using System.Net.Http;
 using System.Threading.Tasks;
 using Abstractions.Internal.Framework;
@@ -10,39 +11,72 @@ namespace Business.Framework
     public class SelectionExecutionHandler
     {
         private readonly ArchiveHandlerFactory _archiveHandlerFactory;
-        public static event FrameworkDelegates.DataDownloaded DataDownloaded;
-        public static event FrameworkDelegates.DataArchived FilesCreated;
+        private readonly ArchiveFileCreationHandler _archiveFileCreationProcessHandler;
+        private readonly CleanupHandler _cleanupHandler;
 
-        public SelectionExecutionHandler(ArchiveHandlerFactory archiveHandlerFactory)
+        //TODO: Try with events too.
+        public static event FrameworkDelegates.DataDownloaded DataDownloaded;
+
+        public SelectionExecutionHandler(ArchiveHandlerFactory archiveHandlerFactory,
+            ArchiveFileCreationHandler archiveFileCreationProcessHandler,
+            CleanupHandler cleanupHandler)
         {
             _archiveHandlerFactory = archiveHandlerFactory;
+            _archiveFileCreationProcessHandler = archiveFileCreationProcessHandler;
+            _cleanupHandler = cleanupHandler;
         }
 
         public async Task Run(SelectionDefinition selection)
         {
             var archiveHandler = _archiveHandlerFactory.GetArchiveHandler(selection.SchoolDomain);
 
-            Dictionary<SupportedEduEntityTypes, bool> statusForEachObject = new Dictionary<SupportedEduEntityTypes, bool>();
+            Dictionary<SupportedEduEntityTypes, List<string>> entityDataFilesMapper = new Dictionary<SupportedEduEntityTypes, List<string>>();
 
             foreach (var entity in selection.EntitiesToArchiveCull)
             {
                 await Task.Run(async () =>
                 {
-                    var isDataDownloadSuccessful = await archiveHandler.GetData(entity);
-                    statusForEachObject.Add(entity.EntityType, isDataDownloadSuccessful);
+                    var dataDownloadedFilesList = await archiveHandler.GetData(entity);
+                    entityDataFilesMapper.Add(entity.EntityType, dataDownloadedFilesList);
                 });
             }
 
-            foreach (var entity in selection.EntitiesToArchiveCull)
+            //var tasks = selection.EntitiesToArchiveCull.Select(entity =>
+            //      Task.Run(async () =>
+            //      {
+            //          var dataDownloadedFilesList = await archiveHandler.GetData(entity);
+            //          entityDataFilesMapper.Add(entity.EntityType, dataDownloadedFilesList);
+            //      })).ToList();
+
+            //await Task.WhenAll(tasks);
+
+            foreach (var entity in entityDataFilesMapper)
             {
-                DataDownloaded?.Invoke(this, new DataDownloadedEventArgs
+                await Task.Run(async () =>
                 {
-                    SelectionDefinition = selection,
-                    RunId = 1, //TODO: Implement it
-                    EntityToArchive = entity
+                    await archiveHandler.CreateArchiveFiles(
+                        selection.EntitiesToArchiveCull.First(e => e.EntityType == entity.Key),
+                        entity.Value);
                 });
+
+                //TODO: Try with events too.
+                //DataDownloaded?.Invoke(this, new DataDownloadedEventArgs
+                //    {
+                //        SelectionDefinition = selection,
+                //        RunId = 1, //TODO: Implement it
+                //        EntityToArchive = selection.EntitiesToArchiveCull.First(e => e.EntityType == entity.Key),
+                //        DataFilesToReadDataFrom = entity.Value
+                //    });
+                //}
             }
 
+            foreach (var entity in entityDataFilesMapper)
+            {
+                await Task.Run(async () =>
+                {
+                    _cleanupHandler.CleanupTemporaryData(entity.Value);
+                });
+            }
         }
     }
 }

@@ -24,16 +24,33 @@ namespace DataProviderApi
 
             for (var i = 23; i < 100; i++)
             {
-                students.Add(new StudentGrades() { Age = i, Id = i + 500, Name = $"Chaitanya - {i}" });
+                students.Add(new StudentGrades { Age = i, Id = i + 500, Name = $"Chaitanya - {i}", Grades = new List<Grade>()});
             }
 
             foreach (var student in students)
             {
-                var grades = new List<Grade>();
-                grades.Add(new Grade { Subject = "Science", Class = 1 });
-                grades.Add(new Grade { Subject = "Maths", Class = 2 });
+                student.Grades.Add(new Grade { Subject = "Science", Class = 1 });
+                student.Grades.Add(new Grade { Subject = "Maths", Class = 2 });
             }
             
+            return students;
+        }
+
+        internal static List<StudentAbsences> GetStudentAbsences()
+        {
+            var students = new List<StudentAbsences>();
+
+            for (var i = 23; i < 100; i++)
+            {
+                students.Add(new StudentAbsences() { Age = i, Id = i + 500, Name = $"Chaitanya - {i}", Absences = new List<Absence>()});
+            }
+
+            foreach (var student in students)
+            {
+                student.Absences.Add(new Absence { Subject = "Science", WasPresent = true });
+                student.Absences.Add(new Absence { Subject = "Maths", WasPresent = false });
+            }
+
             return students;
         }
 

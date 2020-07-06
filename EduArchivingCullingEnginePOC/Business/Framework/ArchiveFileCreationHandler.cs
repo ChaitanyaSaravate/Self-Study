@@ -1,14 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace Business.Framework
+﻿namespace Business.Framework
 {
-    public class ArchiveFileCreationProcessHandler
+    public class ArchiveFileCreationHandler
     {
         private readonly ArchiveHandlerFactory _archiveHandlerFactory;
 
-        public ArchiveFileCreationProcessHandler(ArchiveHandlerFactory archiveHandlerFactory)
+        public ArchiveFileCreationHandler(ArchiveHandlerFactory archiveHandlerFactory)
         {
             _archiveHandlerFactory = archiveHandlerFactory;
             SelectionExecutionHandler.DataDownloaded += SelectionExecutionHandler_DataDownloaded;
@@ -17,7 +13,7 @@ namespace Business.Framework
         private void SelectionExecutionHandler_DataDownloaded(object sender, Abstractions.Internal.Framework.DataDownloadedEventArgs eventArgs)
         {
             var archiveHandler = _archiveHandlerFactory.GetArchiveHandler(eventArgs.SelectionDefinition.SchoolDomain);
-            archiveHandler.CreateArchiveFiles()
+            archiveHandler.CreateArchiveFiles(eventArgs.EntityToArchive, eventArgs.DataFilesToReadDataFrom);
         }
     }
 }

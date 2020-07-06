@@ -19,7 +19,7 @@ namespace Business.SchoolDomains.KAA
             _externalDataReader = dataReader;
         }
 
-        public async Task<bool> GetData(EduEntity entityToArchive)
+        public async Task<List<string>> GetData(EduEntity entityToArchive)
         {
             var requestObject = new GetKAARequest
             {

@@ -6,6 +6,6 @@ namespace Abstractions.Internal.Framework
     {
         public delegate void DataDownloaded(Object sender, DataDownloadedEventArgs eventArgs);
 
-        public delegate void DataArchived(Object sender, ArchiveFilesCreatedEventArgs eventArgs);
+        public delegate void DataArchived(Object sender, EntityArchivedEventArgs eventArgs);
     }
 }

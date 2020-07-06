@@ -10,6 +10,7 @@
     {
         Student,
         Grade,
+        Absence,
         Measures,
         Reminders
     }

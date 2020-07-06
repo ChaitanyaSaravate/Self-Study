@@ -8,12 +8,12 @@ using Abstractions.Public.CompulsorySchool.ServiceContracts;
 
 namespace DataProviderApi
 {
-    public class GradesService : IArchiveGrades
+    public class AbsencesService : IArchiveAbsences
     {
-        public IEnumerable<StudentGrades> GetGrades(GradesDataRequest getGradesRequest)
+        public IEnumerable<StudentAbsences> GetAbsenceses(AbsenceDataRequest dataRequest)
         {
             //TODO: Filter data as per request
-            return FakeData.GetStudentGrades();
+            return FakeData.GetStudentAbsences();
         }
     }
 }
