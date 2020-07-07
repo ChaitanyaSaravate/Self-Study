@@ -22,7 +22,7 @@ namespace Business.SchoolDomains.CompulsorySchool
             {
                 case SupportedEduEntityTypes.Student:
                     return _serviceProvider.GetService<CompulsorySchoolArchiveHandler>();
-                case SupportedEduEntityTypes.Grade:
+                case SupportedEduEntityTypes.Grades:
                     return _serviceProvider.GetService<KAAArchiveHandler>();
                 default:
                     throw new KeyNotFoundException();

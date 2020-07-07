@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<StudentAbsences xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <Name>Chaitanya - 89</Name>
+  <Age>89</Age>
+  <Id>589</Id>
+  <Absences>
+    <Absence>
+      <Subject>Science</Subject>
+      <WasPresent>true</WasPresent>
+    </Absence>
+    <Absence>
+      <Subject>Maths</Subject>
+      <WasPresent>false</WasPresent>
+    </Absence>
+  </Absences>
+</StudentAbsences>

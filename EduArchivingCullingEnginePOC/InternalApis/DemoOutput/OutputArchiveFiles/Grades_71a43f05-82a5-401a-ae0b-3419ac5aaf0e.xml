@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<StudentGrades xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <Name>Chaitanya - 49</Name>
+  <Age>49</Age>
+  <Id>549</Id>
+  <Grades>
+    <Grade>
+      <Subject>Science</Subject>
+      <Class>1</Class>
+    </Grade>
+    <Grade>
+      <Subject>Maths</Subject>
+      <Class>2</Class>
+    </Grade>
+  </Grades>
+</StudentGrades>

@@ -21,7 +21,7 @@ namespace Business.SchoolDomains.KAA
             _filesManager = filesManager;
         }
 
-        public async Task<List<string>> GetData(EduEntity entityToArchive)
+        public async Task<List<string>> GetDataAsync(EduEntity entityToArchive)
         {
             var requestObject = new GetKAARequest
             {
@@ -32,9 +32,31 @@ namespace Business.SchoolDomains.KAA
             return await _externalDataReader.ReadData(requestObject, entityToArchive);
         }
 
-        public async Task<bool> CreateArchiveFiles(Dictionary<SupportedEduEntityTypes, List<string>> entityDataFileMapper)
+        public async Task<bool> CreateArchiveFilesAsync(Dictionary<SupportedEduEntityTypes, List<string>> entityDataFileMapper)
         {
-            bool result = true;
+            try
+            {
+                var youths = await PrepareYouthDataWithAllEntitiesCombined(entityDataFileMapper);
+                foreach (var youth in youths)
+                {
+                    _filesManager.CreateArchiveFile(SupportedEduEntityTypes.Youth.ToString(), youth);
+                }
+                return true;
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                throw;
+            }
+        }
+
+        public async Task<bool> CreateArchiveFilesAsync(SupportedEduEntityTypes eduEntityType, List<string> dataDownloadedInFiles)
+        {
+            return true;
+        }
+
+        private async Task<List<Youth>> PrepareYouthDataWithAllEntitiesCombined(Dictionary<SupportedEduEntityTypes, List<string>> entityDataFileMapper)
+        {
             var deserializer = new EntityDataDeserializer();
 
             List<Youth> youths = new List<Youth>();
@@ -100,17 +122,7 @@ namespace Business.SchoolDomains.KAA
                 }
             }
 
-            foreach (var youth in youths)
-            {
-                _filesManager.CreateArchiveFile(SupportedEduEntityTypes.Youth.ToString(), youth);
-            }
-
-            return result;
-        }
-
-        public async Task<bool> CreateArchiveFiles(SupportedEduEntityTypes eduEntityType, List<string> dataDownloadedInFiles)
-        {
-            return true;
+            return youths;
         }
     }
 }

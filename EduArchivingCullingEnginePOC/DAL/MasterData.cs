@@ -24,7 +24,7 @@ namespace DAL
             {
                 Id = 2,
                 Name = "Grades",
-                EntityType = SupportedEduEntityTypes.Grade,
+                EntityType = SupportedEduEntityTypes.Grades,
                 ParentEntity = SupportedEduEntityTypes.Student,
                 ArchiveEndpoints = new List<string> { "students/grades" },
                 CullingEndpoints = new List<string> { "students/grades" }

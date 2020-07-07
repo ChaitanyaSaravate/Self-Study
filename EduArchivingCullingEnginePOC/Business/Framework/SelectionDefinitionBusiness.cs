@@ -7,11 +7,11 @@ namespace Business.Framework
 {
     public class SelectionDefinitionBusiness : ISelectionDefinitionService
     {
-        private readonly SelectionExecutionHandler _selectionExecutionHandler;
+        private readonly ISelectionExecutionHandler _selectionExecutionHandler;
         private readonly ISelectionDefinitionDataAccess _selectionDefinitionDataAccess;
 
         public SelectionDefinitionBusiness(ISelectionDefinitionDataAccess selectionDefinitionDataAccess, 
-            SelectionExecutionHandler selectionExecutionHandler)
+            ISelectionExecutionHandler selectionExecutionHandler)
         {
             _selectionExecutionHandler = selectionExecutionHandler;
             _selectionDefinitionDataAccess = selectionDefinitionDataAccess;

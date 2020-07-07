@@ -6,25 +6,19 @@ using Abstractions.Internal.Framework.Interfaces;
 
 namespace Business.Framework
 {
-    public class SelectionExecutionHandler
+    public class SelectionExecutionHandler : ISelectionExecutionHandler
     {
         private readonly ArchiveHandlerFactory _archiveHandlerFactory;
-        private readonly ArchiveFileCreationHandler _archiveFileCreationProcessHandler;
         private readonly CleanupHandler _cleanupHandler;
-        private readonly ISelectionDefinitionDataAccess _selectionDefinitionDataAccess;
-        Dictionary<SupportedEduEntityTypes, List<string>> entityDataFilesMapper = new Dictionary<SupportedEduEntityTypes, List<string>>();
-
-        //TODO: Try with events too.
-        public static event FrameworkDelegates.DataDownloaded DataDownloaded;
+        private readonly InputOutputFilesManager _inputOutputFilesManager;
+        Dictionary<SupportedEduEntityTypes, List<string>> _entityDataFilesMapper = new Dictionary<SupportedEduEntityTypes, List<string>>();
 
         public SelectionExecutionHandler(ArchiveHandlerFactory archiveHandlerFactory,
-            ArchiveFileCreationHandler archiveFileCreationProcessHandler,
-            CleanupHandler cleanupHandler, ISelectionDefinitionDataAccess selectionDefinitionDataAccess)
+            CleanupHandler cleanupHandler, InputOutputFilesManager inputOutputFilesManager)
         {
             _archiveHandlerFactory = archiveHandlerFactory;
-            _archiveFileCreationProcessHandler = archiveFileCreationProcessHandler;
             _cleanupHandler = cleanupHandler;
-            _selectionDefinitionDataAccess = selectionDefinitionDataAccess;
+            _inputOutputFilesManager = inputOutputFilesManager;
         }
 
         public async Task Run(SelectionDefinition selection)
@@ -32,8 +26,13 @@ namespace Business.Framework
             var archiveHandler = _archiveHandlerFactory.GetArchiveHandler(selection.SchoolDomain);
 
             await GetDataFromDataProvider(selection, archiveHandler);
+            _inputOutputFilesManager.CreateStatusFile(selection.Id, ArchiveStatuses.DataDownloaded);
+            
             await CreateArchiveFiles(archiveHandler);
+            _inputOutputFilesManager.UpdateStatusFile(selection.Id, ArchiveStatuses.ArchiveFilesCreated);
+            
             await DeleteTempFiles();
+            _inputOutputFilesManager.UpdateStatusFile(selection.Id, ArchiveStatuses.Successful);
         }
 
         private async Task GetDataFromDataProvider(SelectionDefinition selection, IArchive archiveHandler)
@@ -42,20 +41,20 @@ namespace Business.Framework
             {
                 await Task.Run(async () =>
                 {
-                    var dataDownloadedFilesList = await archiveHandler.GetData(entity);
-                    entityDataFilesMapper.Add(entity.EntityType, dataDownloadedFilesList);
+                    var dataDownloadedFilesList = await archiveHandler.GetDataAsync(entity);
+                    _entityDataFilesMapper.Add(entity.EntityType, dataDownloadedFilesList);
                 });
             }
         }
 
         private async Task CreateArchiveFiles(IArchive archiveHandler)
         {
-            await archiveHandler.CreateArchiveFiles(entityDataFilesMapper);
+            await archiveHandler.CreateArchiveFilesAsync(_entityDataFilesMapper);
         }
 
         private async Task DeleteTempFiles()
         {
-            foreach (var entity in entityDataFilesMapper)
+            foreach (var entity in _entityDataFilesMapper)
             {
                 await Task.Run(async () =>
                 {

@@ -21,7 +21,7 @@ namespace Business.SchoolDomains.CompulsorySchool
             _filesManager = filesManager;
         }
 
-        public async Task<List<string>> GetData(EduEntity entityToArchive)
+        public async Task<List<string>> GetDataAsync(EduEntity entityToArchive)
         {
             object requestObject = null;
 
@@ -29,7 +29,7 @@ namespace Business.SchoolDomains.CompulsorySchool
             {
                 requestObject = new StudentArchiveDataRequest { DataOlderThanInYears = 5 };
             }
-            else if (entityToArchive.EntityType == SupportedEduEntityTypes.Grade)
+            else if (entityToArchive.EntityType == SupportedEduEntityTypes.Grades)
             {
                 requestObject = new GradesDataRequest { GradeLessThan = 5, DataOlderThanInYears = 5 };
             }
@@ -41,22 +41,22 @@ namespace Business.SchoolDomains.CompulsorySchool
             return await _externalDataReader.ReadData(requestObject, entityToArchive);
         }
 
-        public async Task<bool> CreateArchiveFiles(Dictionary<SupportedEduEntityTypes, List<string>> entityDataFileMapper)
+        public async Task<bool> CreateArchiveFilesAsync(Dictionary<SupportedEduEntityTypes, List<string>> entityDataFileMapper)
         {
             bool result = true;
             foreach (var entityToArchive in entityDataFileMapper.Keys)
             {
-                result = await this.CreateArchiveFiles(entityToArchive, entityDataFileMapper[entityToArchive]);
+                result = await this.CreateArchiveFilesAsync(entityToArchive, entityDataFileMapper[entityToArchive]);
             }
 
             return result;
         }
 
-        public async Task<bool> CreateArchiveFiles(SupportedEduEntityTypes eduEntityType, List<string> dataDownloadedInFiles)
+        public async Task<bool> CreateArchiveFilesAsync(SupportedEduEntityTypes eduEntityType, List<string> dataDownloadedInFiles)
         {
             var deserializer = new EntityDataDeserializer();
 
-            if (eduEntityType == SupportedEduEntityTypes.Grade)
+            if (eduEntityType == SupportedEduEntityTypes.Grades)
             {
                 var studentGradesData = await deserializer.GetDeserializedData<StudentGrades>(dataDownloadedInFiles[0]);
                 await Task.WhenAll(studentGradesData.Select(record =>
@@ -90,5 +90,6 @@ namespace Business.SchoolDomains.CompulsorySchool
 
             return true;
         }
+
     }
 }

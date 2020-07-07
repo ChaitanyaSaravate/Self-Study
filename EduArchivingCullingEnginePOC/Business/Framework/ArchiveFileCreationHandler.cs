@@ -1,19 +1,24 @@
-﻿namespace Business.Framework
+﻿using Abstractions.Internal.Framework;
+
+namespace Business.Framework
 {
     public class ArchiveFileCreationHandler
     {
         private readonly ArchiveHandlerFactory _archiveHandlerFactory;
+        public static event FrameworkDelegates.ArchivingDelegate ArchiveFilesCreated;
 
         public ArchiveFileCreationHandler(ArchiveHandlerFactory archiveHandlerFactory)
         {
             _archiveHandlerFactory = archiveHandlerFactory;
-            SelectionExecutionHandler.DataDownloaded += SelectionExecutionHandler_DataDownloaded;
+            SelectionExecutionHandlerWithEvents.DataDownloaded += SelectionExecutionHandler_DataDownloaded;
         }
 
-        private void SelectionExecutionHandler_DataDownloaded(object sender, Abstractions.Internal.Framework.DataDownloadedEventArgs eventArgs)
+        private async void SelectionExecutionHandler_DataDownloaded(object sender, Abstractions.Internal.Framework.ArchivingEventArgs eventArgs)
         {
             var archiveHandler = _archiveHandlerFactory.GetArchiveHandler(eventArgs.SelectionDefinition.SchoolDomain);
-            archiveHandler.CreateArchiveFiles(eventArgs.EntityToArchive.EntityType, eventArgs.DataFilesToReadDataFrom);
+            await archiveHandler.CreateArchiveFilesAsync(eventArgs.EntityDataFilesMapper);
+
+            ArchiveFilesCreated?.Invoke(this, eventArgs);
         }
     }
 }

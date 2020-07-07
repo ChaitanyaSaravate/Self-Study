@@ -9,7 +9,7 @@
     public enum SupportedEduEntityTypes
     {
         Student,
-        Grade,
+        Grades,
         Absence,
         Youth,
         Measures,
@@ -26,5 +26,16 @@
     {
         CompulsorySchool,
         KAA
+    }
+
+    public enum ArchiveStatuses
+    {
+        DataDownloadInProgress,
+        ArchiveFileCreationInProgress,
+        DataDownloaded,
+        ArchiveFilesCreated,
+        InProgress,
+        Successful,
+        Failed
     }
 }

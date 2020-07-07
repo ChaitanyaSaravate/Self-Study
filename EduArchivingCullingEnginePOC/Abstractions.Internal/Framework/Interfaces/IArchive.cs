@@ -10,12 +10,12 @@ namespace Abstractions.Internal.Framework.Interfaces
     public interface IArchive
     {
         //TODO: Send selection definition id, run id etc so that files can be saved in separate folders.
-        Task<List<string>> GetData(EduEntity entityToArchive);
+        Task<List<string>> GetDataAsync(EduEntity entityToArchive);
 
         //TODO: In real framework, data files can be read from database instead of handling in memory.
-        Task<bool> CreateArchiveFiles(Dictionary<SupportedEduEntityTypes, List<string>> entityDataFileMapper);
+        Task<bool> CreateArchiveFilesAsync(Dictionary<SupportedEduEntityTypes, List<string>> entityDataFileMapper);
 
         //TODO: This can be removed but kept here to make some code compile.
-        Task<bool> CreateArchiveFiles(SupportedEduEntityTypes eduEntityType, List<string> dataDownloadedInFiles);
+        Task<bool> CreateArchiveFilesAsync(SupportedEduEntityTypes eduEntityType, List<string> dataDownloadedInFiles);
     }
 }
