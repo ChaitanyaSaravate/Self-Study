@@ -13,7 +13,7 @@
         private void SelectionExecutionHandler_DataDownloaded(object sender, Abstractions.Internal.Framework.DataDownloadedEventArgs eventArgs)
         {
             var archiveHandler = _archiveHandlerFactory.GetArchiveHandler(eventArgs.SelectionDefinition.SchoolDomain);
-            archiveHandler.CreateArchiveFiles(eventArgs.EntityToArchive, eventArgs.DataFilesToReadDataFrom);
+            archiveHandler.CreateArchiveFiles(eventArgs.EntityToArchive.EntityType, eventArgs.DataFilesToReadDataFrom);
         }
     }
 }

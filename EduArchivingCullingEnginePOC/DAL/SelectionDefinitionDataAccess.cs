@@ -17,5 +17,10 @@ namespace DAL
         {
             return MasterData.GetSelectionDefinition(id);
         }
+
+        public EduEntityGroup GetEduEntityGroup(SupportedEduEntityGroups eduEntityGroup)
+        {
+            return MasterData.GetEduEntityGroup(eduEntityGroup);
+        }
     }
 }

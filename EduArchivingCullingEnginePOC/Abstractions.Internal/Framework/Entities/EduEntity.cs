@@ -9,6 +9,8 @@ namespace Abstractions.Internal.Framework.Entities
 
         public int Id { get; set; }
 
+        public SupportedEduEntityTypes ParentEntity { get; set; }
+
         public SupportedEduEntityTypes EntityType { get; set; }
 
         public IEnumerable<string> ArchiveEndpoints { get; set; }

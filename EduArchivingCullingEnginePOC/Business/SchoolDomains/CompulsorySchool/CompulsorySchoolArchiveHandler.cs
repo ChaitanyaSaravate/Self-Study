@@ -1,8 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Text.Json;
 using System.Threading.Tasks;
 using Abstractions.Internal.Framework;
 using Abstractions.Internal.Framework.Entities;
@@ -44,36 +41,46 @@ namespace Business.SchoolDomains.CompulsorySchool
             return await _externalDataReader.ReadData(requestObject, entityToArchive);
         }
 
-        public async Task<bool> CreateArchiveFiles(EduEntity entityToArchive, List<string> dataDownloadedInFiles)
+        public async Task<bool> CreateArchiveFiles(Dictionary<SupportedEduEntityTypes, List<string>> entityDataFileMapper)
+        {
+            bool result = true;
+            foreach (var entityToArchive in entityDataFileMapper.Keys)
+            {
+                result = await this.CreateArchiveFiles(entityToArchive, entityDataFileMapper[entityToArchive]);
+            }
+
+            return result;
+        }
+
+        public async Task<bool> CreateArchiveFiles(SupportedEduEntityTypes eduEntityType, List<string> dataDownloadedInFiles)
         {
             var deserializer = new EntityDataDeserializer();
-            List<object> datasetToArchive = null;
 
-            if (entityToArchive.EntityType == SupportedEduEntityTypes.Grade)
+            if (eduEntityType == SupportedEduEntityTypes.Grade)
             {
                 var studentGradesData = await deserializer.GetDeserializedData<StudentGrades>(dataDownloadedInFiles[0]);
                 await Task.WhenAll(studentGradesData.Select(record =>
                     Task.Run(async () =>
                     {
-                        _filesManager.CreateArchiveFile(entityToArchive.Name, record);
+                        _filesManager.CreateArchiveFile(eduEntityType.ToString(), record);
                     })));
             }
-            else if (entityToArchive.EntityType == SupportedEduEntityTypes.Student)
+            else if (eduEntityType == SupportedEduEntityTypes.Student)
             {
                 var studentInfoRecords = await deserializer.GetDeserializedData<StudentInfo>(dataDownloadedInFiles[0]);
                 await Task.WhenAll(studentInfoRecords.Select(record =>
                     Task.Run(async () =>
                     {
-                        _filesManager.CreateArchiveFile(entityToArchive.Name, record);
+                        _filesManager.CreateArchiveFile(eduEntityType.ToString(), record);
                     })));
             }
-            else if (entityToArchive.EntityType == SupportedEduEntityTypes.Absence)
+            else if (eduEntityType == SupportedEduEntityTypes.Absence)
             {
                 var absenceRecords = await deserializer.GetDeserializedData<StudentAbsences>(dataDownloadedInFiles[0]);
                 await Task.WhenAll(absenceRecords.Select(record =>
                     Task.Run(async () =>
                     {
-                        _filesManager.CreateArchiveFile(entityToArchive.Name, record);
+                        _filesManager.CreateArchiveFile(eduEntityType.ToString(), record);
                     })));
             }
             else

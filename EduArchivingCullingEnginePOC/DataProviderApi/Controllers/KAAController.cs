@@ -13,6 +13,12 @@ namespace DataProviderApi.Controllers
         { 
         }
 
+        [HttpPost("youths")]
+        public IEnumerable<YouthBase> PostGetYouths([FromBody] GetKAARequest requestedYouth)
+        {
+            return FakeData.GetYouths();
+        }
+
         [HttpPost("measures")]
         public IEnumerable<Measures> PostGetMeasures([FromBody] GetKAARequest requestedMeasures)
         {

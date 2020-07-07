@@ -11,6 +11,7 @@
         Student,
         Grade,
         Absence,
+        Youth,
         Measures,
         Reminders
     }

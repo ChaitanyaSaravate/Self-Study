@@ -13,6 +13,9 @@ namespace Abstractions.Internal.Framework.Interfaces
         Task<List<string>> GetData(EduEntity entityToArchive);
 
         //TODO: In real framework, data files can be read from database instead of handling in memory.
-        Task<bool> CreateArchiveFiles(EduEntity entityToArchive, List<string> dataDownloadedInFiles);
+        Task<bool> CreateArchiveFiles(Dictionary<SupportedEduEntityTypes, List<string>> entityDataFileMapper);
+
+        //TODO: This can be removed but kept here to make some code compile.
+        Task<bool> CreateArchiveFiles(SupportedEduEntityTypes eduEntityType, List<string> dataDownloadedInFiles);
     }
 }

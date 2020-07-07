@@ -10,5 +10,7 @@ namespace Abstractions.Internal.Framework
         IList<SelectionDefinition> GetSelectionDefinitions();
 
         SelectionDefinition Get(int id);
+
+        EduEntityGroup GetEduEntityGroup(SupportedEduEntityGroups eduEntityGroup);
     }
 }

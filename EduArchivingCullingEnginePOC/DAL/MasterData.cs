@@ -25,6 +25,7 @@ namespace DAL
                 Id = 2,
                 Name = "Grades",
                 EntityType = SupportedEduEntityTypes.Grade,
+                ParentEntity = SupportedEduEntityTypes.Student,
                 ArchiveEndpoints = new List<string> { "students/grades" },
                 CullingEndpoints = new List<string> { "students/grades" }
             };
@@ -34,6 +35,7 @@ namespace DAL
                 Id = 3,
                 Name = "Absence",
                 EntityType = SupportedEduEntityTypes.Absence,
+                ParentEntity = SupportedEduEntityTypes.Student,
                 ArchiveEndpoints = new List<string> { "students/absences" },
                 CullingEndpoints = new List<string> { "students/absences" }
             };
@@ -46,17 +48,29 @@ namespace DAL
                 PerformOperationOnGroupLevel = false,
                 Entities = new List<EduEntity>
                 {
-                    gradesEntity,
                     studentEntity,
+                    gradesEntity,
                     absencseEntity
                 }
             });
+
+            var youthEntity = new EduEntity
+            {
+                Id = 1,
+                Name = "Youth",
+                EntityType = SupportedEduEntityTypes.Youth,
+                ArchiveEndpoints = new List<string> { "kaa/youths" },
+                CullingEndpoints = new List<string> { "kaa/youths" }
+            };
 
             var measuresEntity = new EduEntity
             {
                 Id = 1,
                 Name = "Measures",
                 EntityType = SupportedEduEntityTypes.Measures,
+                ParentEntity = SupportedEduEntityTypes.Youth,
+                //ArchiveEndpoints = new List<string>(),
+                //CullingEndpoints = new List<string>(),
                 ArchiveEndpoints = new List<string> { "kaa/measures" },
                 CullingEndpoints = new List<string> { "kaa/measures" }
             };
@@ -66,6 +80,9 @@ namespace DAL
                 Id = 2,
                 Name = "Reminders",
                 EntityType = SupportedEduEntityTypes.Reminders,
+                ParentEntity = SupportedEduEntityTypes.Youth,
+                //ArchiveEndpoints = new List<string>(),
+                //CullingEndpoints = new List<string>(),
                 ArchiveEndpoints = new List<string> { "kaa/reminders" },
                 CullingEndpoints = new List<string> { "kaa/reminders" }
             };
@@ -78,6 +95,7 @@ namespace DAL
                 PerformOperationOnGroupLevel = true,
                 Entities = new List<EduEntity>
                 {
+                    youthEntity,
                     measuresEntity,
                     remindersEntity
                 }
@@ -107,9 +125,9 @@ namespace DAL
 
             foreach (var entity in entityGroup.Entities)
             {
-               compulsoryStudentSelection.EntitiesToArchiveCull.Add(entity);
-               //ToDO: Remove this break when you want to add more than one entities.
-               //break;
+                compulsoryStudentSelection.EntitiesToArchiveCull.Add(entity);
+                //ToDO: Remove this break when you want to add more than one entities.
+                //break;
             }
             compulsoryStudentSelection.SchoolDomain = entityGroup.SchoolDomain;
 

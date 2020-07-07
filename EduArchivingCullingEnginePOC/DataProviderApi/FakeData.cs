@@ -24,7 +24,7 @@ namespace DataProviderApi
 
             for (var i = 23; i < 100; i++)
             {
-                students.Add(new StudentGrades { Age = i, Id = i + 500, Name = $"Chaitanya - {i}", Grades = new List<Grade>()});
+                students.Add(new StudentGrades { Age = i, Id = i + 500, Name = $"Chaitanya - {i}", Grades = new List<Grade>() });
             }
 
             foreach (var student in students)
@@ -32,7 +32,7 @@ namespace DataProviderApi
                 student.Grades.Add(new Grade { Subject = "Science", Class = 1 });
                 student.Grades.Add(new Grade { Subject = "Maths", Class = 2 });
             }
-            
+
             return students;
         }
 
@@ -42,7 +42,7 @@ namespace DataProviderApi
 
             for (var i = 23; i < 100; i++)
             {
-                students.Add(new StudentAbsences() { Age = i, Id = i + 500, Name = $"Chaitanya - {i}", Absences = new List<Absence>()});
+                students.Add(new StudentAbsences() { Age = i, Id = i + 500, Name = $"Chaitanya - {i}", Absences = new List<Absence>() });
             }
 
             foreach (var student in students)
@@ -98,6 +98,22 @@ namespace DataProviderApi
             }
 
             return measures;
+        }
+
+        internal static List<YouthBase> GetYouths()
+        {
+            List<YouthBase> youths = new List<YouthBase>();
+
+            for (int i = 1; i < 100; i++)
+            {
+                youths.Add(new YouthBase
+                     {
+                         Age = 25,
+                         Name = $"Sourabh - {i}",
+                         Id = i
+                     });
+            }
+            return youths;
         }
     }
 }
