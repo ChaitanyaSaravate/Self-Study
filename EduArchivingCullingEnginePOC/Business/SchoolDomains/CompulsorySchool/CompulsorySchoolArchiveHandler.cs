@@ -56,40 +56,29 @@ namespace Business.SchoolDomains.CompulsorySchool
         {
             var deserializer = new EntityDataDeserializer();
 
-            if (eduEntityType == SupportedEduEntityTypes.Grades)
+            switch (eduEntityType)
             {
-                var studentGradesData = await deserializer.GetDeserializedData<StudentGrades>(dataDownloadedInFiles[0]);
-                await Task.WhenAll(studentGradesData.Select(record =>
-                    Task.Run(async () =>
-                    {
-                        _filesManager.CreateArchiveFile(eduEntityType.ToString(), record);
-                    })));
-            }
-            else if (eduEntityType == SupportedEduEntityTypes.Student)
-            {
-                var studentInfoRecords = await deserializer.GetDeserializedData<StudentInfo>(dataDownloadedInFiles[0]);
-                await Task.WhenAll(studentInfoRecords.Select(record =>
-                    Task.Run(async () =>
-                    {
-                        _filesManager.CreateArchiveFile(eduEntityType.ToString(), record);
-                    })));
-            }
-            else if (eduEntityType == SupportedEduEntityTypes.Absence)
-            {
-                var absenceRecords = await deserializer.GetDeserializedData<StudentAbsences>(dataDownloadedInFiles[0]);
-                await Task.WhenAll(absenceRecords.Select(record =>
-                    Task.Run(async () =>
-                    {
-                        _filesManager.CreateArchiveFile(eduEntityType.ToString(), record);
-                    })));
-            }
-            else
-            {
-                throw new KeyNotFoundException();
+                //TODO: Read all files instead of first file.
+                case SupportedEduEntityTypes.Grades:
+                    await CreateArchiveFileForEachRecord(eduEntityType, await deserializer.GetDeserializedData<StudentGrades>(dataDownloadedInFiles[0]));
+                    break;
+                case SupportedEduEntityTypes.Student:
+                    await CreateArchiveFileForEachRecord(eduEntityType, await deserializer.GetDeserializedData<StudentInfo>(dataDownloadedInFiles[0]));
+                    break;
+                case SupportedEduEntityTypes.Absence:
+                    await CreateArchiveFileForEachRecord(eduEntityType, await deserializer.GetDeserializedData<StudentAbsences>(dataDownloadedInFiles[0]));
+                    break;
+                default:
+                    throw new KeyNotFoundException();
             }
 
             return true;
         }
 
+        private async Task CreateArchiveFileForEachRecord<T>(SupportedEduEntityTypes eduEntityType, IList<T> entityRecords)
+        {
+            await Task.WhenAll(entityRecords.Select(record =>
+                Task.Run(async () => { _filesManager.CreateArchiveFile(eduEntityType.ToString(), record); })));
+        }
     }
 }

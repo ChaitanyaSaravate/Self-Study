@@ -87,6 +87,7 @@ namespace Business.SchoolDomains.KAA
                                 youths.Add(youth);
                             }
 
+                            measure.Youth = null;
                             youth.Measures.Add(measure);
                         }
                     }
@@ -116,6 +117,7 @@ namespace Business.SchoolDomains.KAA
                                 youths.Add(youth);
                             }
 
+                            reminder.Youth = null;
                             youth.Reminders.Add(reminder);
                         }
                     }

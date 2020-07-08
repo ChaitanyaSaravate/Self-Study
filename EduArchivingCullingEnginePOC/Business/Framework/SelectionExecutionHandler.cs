@@ -25,6 +25,7 @@ namespace Business.Framework
         {
             var archiveHandler = _archiveHandlerFactory.GetArchiveHandler(selection.SchoolDomain);
 
+            //TODO: Selection is not broken down. POC just jumps to entity level operation.
             await GetDataFromDataProvider(selection, archiveHandler);
             _inputOutputFilesManager.CreateStatusFile(selection.Id, ArchiveStatuses.DataDownloaded);
             

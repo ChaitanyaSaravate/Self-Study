@@ -37,7 +37,7 @@ namespace InternalApis
             services.AddTransient<ISelectionDefinitionDataAccess, SelectionDefinitionDataAccess>();
             services.AddTransient<ISelectionDefinitionService, SelectionDefinitionBusiness>();
             //services.AddTransient<ISelectionExecutionHandler, SelectionExecutionHandlerWithEvents>();
-            services.AddTransient<ISelectionExecutionHandler, SelectionExecutionHandler>();
+            //services.AddTransient<ISelectionExecutionHandler, SelectionExecutionHandler>();
 
             services.AddTransient<ArchiveFileCreationHandler>();
             services.AddTransient<CleanupHandler>();
@@ -46,9 +46,9 @@ namespace InternalApis
             services.AddTransient<CompulsorySchoolArchiveHandler>();
             services.AddTransient<KAAArchiveHandler>();
 
-            //services.AddTransient<ISelectionExecutionHandler, SelectionExecutionHandlerForBackgroundService>();
-            //services.AddHostedService<ArchiveFileCreatorService>();
-            //services.AddHostedService<CleanupService>();
+            services.AddTransient<ISelectionExecutionHandler, SelectionExecutionHandlerForBackgroundService>();
+            services.AddHostedService<ArchiveFileCreatorService>();
+            services.AddHostedService<CleanupService>();
 
             //services.AddSingleton<IArchive>(sp =>
             //{
