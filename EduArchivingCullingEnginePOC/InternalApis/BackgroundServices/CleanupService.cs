@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Net;
+﻿using System.IO;
 using System.Threading;
 using System.Threading.Tasks;
 using Abstractions.Internal.Framework;
@@ -10,6 +6,10 @@ using Microsoft.Extensions.Hosting;
 
 namespace InternalApis.BackgroundServices
 {
+    /// <summary>
+    /// Background service which cleans up temp data files.
+    /// NOTE NOTE NOTE: Background Services are helpful. But note that they are tricky in load balanced environment since we may have data files on the server from where original request was served; not necessarily on which the background service is running. 
+    /// </summary>
     public class CleanupService : BackgroundService
     {
         private readonly InputOutputFilesManager _inputOutputFilesManager;

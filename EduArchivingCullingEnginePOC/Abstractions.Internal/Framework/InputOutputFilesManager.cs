@@ -7,7 +7,8 @@ using Microsoft.AspNetCore.Hosting;
 
 namespace Abstractions.Internal.Framework
 {
-    //NOTE: Changing file naming or folder structure created by this class will cause breaking changes. So, do it carefully.
+    // NOTE: Changing file naming or folder structure created by this class will cause breaking changes. So, do it carefully.
+    //TODO: Write better code .. So much duplication at present !
     public class InputOutputFilesManager
     {
         private readonly IHostingEnvironment _hostingEnvironment;
@@ -59,7 +60,7 @@ namespace Abstractions.Internal.Framework
 
         public string CreateStatusFile(int selectionId, ArchiveStatuses status)
         {
-            // Status is kept in the file name itself for now.
+            // Status is kept in the file name itself for now. Weired but OK for POC !This is because updating the file contents was giving "not able to modify" error... 
             var filePath = CreateStatusFolder() + @"\" + $"{selectionId}_{status.ToString()}.txt";
             File.Create(filePath);
 

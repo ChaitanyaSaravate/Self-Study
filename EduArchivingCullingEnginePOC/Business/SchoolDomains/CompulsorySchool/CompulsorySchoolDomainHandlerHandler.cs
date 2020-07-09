@@ -10,12 +10,13 @@ using Business.Framework;
 
 namespace Business.SchoolDomains.CompulsorySchool
 {
-    public class CompulsorySchoolArchiveHandler : IArchive
+    //TODO: Improve it .. So many switch-cases / conditional blocks !
+    public class CompulsorySchoolDomainHandlerHandler : IDomainHandler
     {
-        private readonly IDataReader _externalDataReader;
+        private readonly IExternalDataReader _externalDataReader;
         private readonly InputOutputFilesManager _filesManager;
 
-        public CompulsorySchoolArchiveHandler(IDataReader externalDataReader, InputOutputFilesManager filesManager)
+        public CompulsorySchoolDomainHandlerHandler(IExternalDataReader externalDataReader, InputOutputFilesManager filesManager)
         {
             _externalDataReader = externalDataReader;
             _filesManager = filesManager;
@@ -23,6 +24,8 @@ namespace Business.SchoolDomains.CompulsorySchool
 
         public async Task<List<string>> GetDataAsync(EduEntity entityToArchive)
         {
+            // Main job here is to just prepare selection criterion according to business rule. Actual data is fetched using Framework's external data reader only. 
+
             object requestObject = null;
 
             if (entityToArchive.EntityType == SupportedEduEntityTypes.Student)
@@ -58,6 +61,7 @@ namespace Business.SchoolDomains.CompulsorySchool
 
             switch (eduEntityType)
             {
+                // Note that in this handler, file is created per entity. So it's simple job when you know which entity to send to the file handler.
                 //TODO: Read all files instead of first file.
                 case SupportedEduEntityTypes.Grades:
                     await CreateArchiveFileForEachRecord(eduEntityType, await deserializer.GetDeserializedData<StudentGrades>(dataDownloadedInFiles[0]));

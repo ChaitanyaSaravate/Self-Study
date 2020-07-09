@@ -8,14 +8,12 @@ using System.Threading.Tasks;
 using Abstractions.Internal.Framework;
 using Abstractions.Internal.Framework.Entities;
 using Abstractions.Internal.Framework.Interfaces;
-using Microsoft.AspNetCore.Hosting;
 
 namespace Business.Framework
 {
-    public class ExternalDataReader : IDataReader
+    public class ExternalDataReader : IExternalDataReader
     {
         private readonly IHttpClientFactory _httpClientFactory;
-        private readonly IHostingEnvironment _hostingEnvironment;
         private readonly InputOutputFilesManager _inputOutputFilesManager;
 
         public ExternalDataReader(IHttpClientFactory httpClientFactory, InputOutputFilesManager inputOutputFilesManager)
@@ -24,6 +22,13 @@ namespace Business.Framework
             _inputOutputFilesManager = inputOutputFilesManager;
         }
 
+        /// <summary>
+        /// Connects you to data provider and downloads the data.
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="request"></param>
+        /// <param name="entityToArchive"></param>
+        /// <returns></returns>
         public async Task<List<string>> ReadData<T>(T request, EduEntity entityToArchive)
         {
             try
@@ -38,7 +43,7 @@ namespace Business.Framework
 
                     var content = new StringContent(requestString, Encoding.Default, "application/json");
 
-                    //TODO: It's calling one endpoint at present. You may have to call multiple endpoints.
+                    //TODO: It's calling only one endpoint at present. Improve the code to call multiple and get data from multiple sources.
                     var response = await httpClient.PostAsync(entityToArchive.ArchiveEndpoints.First(), content);
                     var result = await response.Content.ReadAsStringAsync();
 

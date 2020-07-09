@@ -1,8 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Net;
 using System.Threading;
 using System.Threading.Tasks;
 using Abstractions.Internal.Framework;
@@ -13,6 +10,10 @@ using Microsoft.Extensions.Logging;
 
 namespace InternalApis.BackgroundServices
 {
+    /// <summary>
+    /// Background service which creates archive files if the data is downloaded.
+    /// NOTE NOTE NOTE: Background Services are helpful. But note that they are tricky in load balanced environment since we may have data files on the server from where original request was served; not necessarily on which the background service is running.
+    /// </summary>
     public class ArchiveFileCreatorService : BackgroundService
     {
         private readonly InputOutputFilesManager _inputOutputFilesManager;

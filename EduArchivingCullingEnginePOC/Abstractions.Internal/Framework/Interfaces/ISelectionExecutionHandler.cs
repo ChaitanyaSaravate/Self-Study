@@ -3,9 +3,14 @@ using Abstractions.Internal.Framework.Entities;
 
 namespace Abstractions.Internal.Framework.Interfaces
 {
-    //TODO: Turn it into some real interface with methods in it
+    // (NOTE: In real Framework, the methods and parameter types would obviously vary!)
     public interface ISelectionExecutionHandler
     {
+        /// <summary>
+        /// Execute/run the given selection.
+        /// </summary>
+        /// <param name="selection"></param>
+        /// <returns></returns>
         Task Run(SelectionDefinition selection);
     }
 }

@@ -36,27 +36,24 @@ namespace InternalApis
 
             services.AddTransient<ISelectionDefinitionDataAccess, SelectionDefinitionDataAccess>();
             services.AddTransient<ISelectionDefinitionService, SelectionDefinitionBusiness>();
-            //services.AddTransient<ISelectionExecutionHandler, SelectionExecutionHandlerWithEvents>();
-            //services.AddTransient<ISelectionExecutionHandler, SelectionExecutionHandler>();
+
+            // Uncomment following line if you want to to perform archiving using C# events.. But it gives unpredictable results...
+            // services.AddTransient<ISelectionExecutionHandler, SelectionExecutionHandlerWithEvents>();
+
+            // Uncomment following line if you want to perform archiving without help of background services..
+            services.AddTransient<ISelectionExecutionHandler, SelectionExecutionHandler>();
 
             services.AddTransient<ArchiveFileCreationHandler>();
             services.AddTransient<CleanupHandler>();
-            services.AddTransient<IDataReader, ExternalDataReader>();
+            services.AddTransient<IExternalDataReader, ExternalDataReader>();
 
-            services.AddTransient<CompulsorySchoolArchiveHandler>();
-            services.AddTransient<KAAArchiveHandler>();
+            services.AddTransient<CompulsorySchoolDomainHandlerHandler>();
+            services.AddTransient<KaaDomainHandlerHandler>();
 
-            services.AddTransient<ISelectionExecutionHandler, SelectionExecutionHandlerForBackgroundService>();
-            services.AddHostedService<ArchiveFileCreatorService>();
-            services.AddHostedService<CleanupService>();
-
-            //services.AddSingleton<IArchive>(sp =>
-            //{
-            //    var indexPrefix = sp.GetService<IArchive>().;
-            //    var dateTimeProvider = sp.GetService<IDateTimeProvider>();
-
-            //    return new WeekBasedElasticIndexNameProvider(indexPrefix, dateTimeProvider);
-            //});
+            // Uncomment following 3 lines if you want to perform archiving using background services..
+            //services.AddTransient<ISelectionExecutionHandler, SelectionExecutionHandlerForBackgroundService>();
+            //services.AddHostedService<ArchiveFileCreatorService>();
+            //services.AddHostedService<CleanupService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

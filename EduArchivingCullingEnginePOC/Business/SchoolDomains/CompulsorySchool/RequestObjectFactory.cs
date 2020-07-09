@@ -16,14 +16,14 @@ namespace Business.SchoolDomains.CompulsorySchool
         {
             _serviceProvider = serviceProvider;
         }
-        public IArchive GetArchiveHandler(SupportedEduEntityTypes eduEntityType)
+        public IDomainHandler GetArchiveHandler(SupportedEduEntityTypes eduEntityType)
         {
             switch (eduEntityType)
             {
                 case SupportedEduEntityTypes.Student:
-                    return _serviceProvider.GetService<CompulsorySchoolArchiveHandler>();
+                    return _serviceProvider.GetService<CompulsorySchoolDomainHandlerHandler>();
                 case SupportedEduEntityTypes.Grades:
-                    return _serviceProvider.GetService<KAAArchiveHandler>();
+                    return _serviceProvider.GetService<KaaDomainHandlerHandler>();
                 default:
                     throw new KeyNotFoundException();
 

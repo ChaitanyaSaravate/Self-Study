@@ -6,6 +6,9 @@ using Abstractions.Internal.Framework.Interfaces;
 
 namespace Business.Framework
 {
+    /// <summary>
+    /// This is just getting data from data provider, leaving archive creation and cleanup work to the Background Services in Internal API project.
+    /// </summary>
     public class SelectionExecutionHandlerForBackgroundService : ISelectionExecutionHandler
     {
         private readonly ArchiveHandlerFactory _archiveHandlerFactory;
@@ -29,13 +32,13 @@ namespace Business.Framework
             _inputOutputFilesManager.CreateStatusFile(selection.Id, ArchiveStatuses.DataDownloaded);
         }
 
-        private async Task GetDataFromDataProvider(SelectionDefinition selection, IArchive archiveHandler)
+        private async Task GetDataFromDataProvider(SelectionDefinition selection, IDomainHandler domainHandlerHandler)
         {
             foreach (var entity in selection.EntitiesToArchiveCull)
             {
                 await Task.Run(async () =>
                 {
-                    var dataDownloadedFilesList = await archiveHandler.GetDataAsync(entity);
+                    var dataDownloadedFilesList = await domainHandlerHandler.GetDataAsync(entity);
                     _entityDataFilesMapper.Add(entity.EntityType, dataDownloadedFilesList);
                 });
             }

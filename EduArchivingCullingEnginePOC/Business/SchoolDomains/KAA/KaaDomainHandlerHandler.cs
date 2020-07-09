@@ -10,12 +10,12 @@ using Business.Framework;
 
 namespace Business.SchoolDomains.KAA
 {
-    public class KAAArchiveHandler : IArchive
+    public class KaaDomainHandlerHandler : IDomainHandler
     {
-        private readonly IDataReader _externalDataReader;
+        private readonly IExternalDataReader _externalDataReader;
         private readonly InputOutputFilesManager _filesManager;
 
-        public KAAArchiveHandler(IDataReader dataReader, InputOutputFilesManager filesManager)
+        public KaaDomainHandlerHandler(IExternalDataReader dataReader, InputOutputFilesManager filesManager)
         {
             _externalDataReader = dataReader;
             _filesManager = filesManager;
@@ -23,6 +23,8 @@ namespace Business.SchoolDomains.KAA
 
         public async Task<List<string>> GetDataAsync(EduEntity entityToArchive)
         {
+            // Main job here is to just prepare selection criterion according to business rule. Actual data is fetched using Framework's external data reader only. 
+            
             var requestObject = new GetKAARequest
             {
                 NumOfMonthsFromPreviousMonth = 6,
@@ -36,6 +38,7 @@ namespace Business.SchoolDomains.KAA
         {
             try
             {
+                // Note that in this handler, file is created per Parent i.e. Youth; not a separate file for each entity.
                 var youths = await PrepareYouthDataWithAllEntitiesCombined(entityDataFileMapper);
                 foreach (var youth in youths)
                 {
