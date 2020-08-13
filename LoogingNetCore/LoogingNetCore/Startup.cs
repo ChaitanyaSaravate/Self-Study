@@ -1,11 +1,11 @@
 using Logging.Abstractions;
 using Logging.SerilogClient;
+using Logging.SerilogClient.Extensions;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Serilog;
 
 namespace LoggingNetCore
 {
@@ -22,7 +22,20 @@ namespace LoggingNetCore
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllers();
-            services.AddScoped(typeof(IAuditLogger<>),typeof(AuditLogger<>));
+            services.AddHttpContextAccessor();
+
+            services.AddMetaService();
+            services.AddMetaServiceInHttpContext(configure =>
+            {
+                configure.Domain("TESSA_META");
+                configure.MetaServiceUri("http://tecedupune.ap.tieto.com:23610");
+            });
+            services.AddDatabaseManagement();
+            services.AddDatabaseManagementOnWindows();
+            
+            services.Configure<SerilogSqlSinkOptions>(o => { o.ModuleName = "ArchivingCulling"; });
+            services.ConfigureOptions<SerilogPostConfigureOptions>();
+            services.AddScoped(typeof(IAuditLogger<>), typeof(AuditLogger<>));
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

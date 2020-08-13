@@ -7,6 +7,7 @@ using Logging.Abstractions;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Http.Extensions;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.DependencyInjection;
 using Serilog;
 
 namespace LoggingNetCore.Controllers
@@ -18,9 +19,11 @@ namespace LoggingNetCore.Controllers
         private readonly IAuditLogger<SchoolsController> _auditLogger;
         private readonly Serilog.ILogger _seriLogger = Log.ForContext<SchoolsController>();
 
-        public SchoolsController(IAuditLogger<SchoolsController> auditLogger)
+        public SchoolsController(IAuditLogger<SchoolsController> auditLogger, IServiceProvider serviceProvider)
         {
             _auditLogger = auditLogger;
+
+            _auditLogger = serviceProvider.GetRequiredService<IAuditLogger<SchoolsController>>();
         }
 
         // GET: api/School
@@ -30,13 +33,9 @@ namespace LoggingNetCore.Controllers
             _seriLogger.Verbose("Querying the database.");
             var schools = InMemoryStorage.Schools;
             _seriLogger.Verbose("Database call successful");
-            
             _auditLogger.LogBusinessEvent(ApplicationLogEvents.AuditEventTypes.SchoolsLookUp, "Read details of the {SchoolCount} schools.", schools.Count());
-
             HttpClient client = new HttpClient();
             var result = client.GetAsync("https://localhost:44327/weatherforecast");
-
-
             return schools;
         }
 
@@ -63,7 +62,7 @@ namespace LoggingNetCore.Controllers
         {
             var school = InMemoryStorage.Schools.First(s => s.Id == schoolId);
             var students = school?.Students; ;
-           _auditLogger.LogBusinessEvent(ApplicationLogEvents.AuditEventTypes.StudentsLookUp, "Read information about the Students in the School having ID = {SchoolID}.", schoolId);
+            _auditLogger.LogBusinessEvent(ApplicationLogEvents.AuditEventTypes.StudentsLookUp, "Read information about the Students in the School having ID = {SchoolID}.", schoolId);
             return students;
         }
 

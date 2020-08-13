@@ -15,7 +15,12 @@ namespace Logging.Abstractions
             ActiveSubjectId,
             ActiveSubjectType,
             CorrelationId,
-            DomainId
+            DomainId,
+            CustomerId,
+            SystemName,
+            SolutionArea,
+            UserName,
+            ServerId
         }
     }
 }

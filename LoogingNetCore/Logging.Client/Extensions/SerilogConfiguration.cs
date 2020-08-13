@@ -5,14 +5,25 @@ using Serilog;
 using Serilog.Events;
 using Serilog.Sinks.MSSqlServer;
 
-namespace Microsoft.Extensions.Hosting
+namespace Logging.SerilogClient.Extensions
 {
     public static class SerilogConfigurationExtension
     {
+        /// <summary>
+        /// Adds a basic Serilog configuration which can be done while building the Host.
+        /// </summary>
+        /// <param name="builder"></param>
+        /// <param name="applicationName"></param>
+        /// <param name="solutionArea"></param>
+        /// <returns></returns>
         public static IHostBuilder ConfigureSeriLog(this IHostBuilder builder, string applicationName, string solutionArea = "Tieto_Education")
         {
+            //TODO: Try configuring LoggerConfiguration using external configuration file instead of through code.
+
             return builder.UseSerilog((hostBuilderContext, loggerConfig) =>
             {
+                // Many configuration settings are added just to try them out to see their effects.
+                
                 // Common Logger configuration
                 loggerConfig.MinimumLevel.Verbose();
                 loggerConfig.Enrich.FromLogContext();
@@ -23,6 +34,7 @@ namespace Microsoft.Extensions.Hosting
                 // Fixed properties
                 loggerConfig.Enrich.WithProperty("SolutionArea", solutionArea);
                 loggerConfig.Enrich.WithProperty("AppName", applicationName);
+                loggerConfig.Enrich.With(new AuditLogEventEnricher());
                 //loggerConfig.Enrich.WithProperty("AdditionalDetails",
                 //    "Some additional details for which separate field or column is not available.");
 
@@ -32,13 +44,16 @@ namespace Microsoft.Extensions.Hosting
 
                 string templateWithOnePlaceholderForAllPropertyEnrichers = "{Timestamp:yyyy-MM-dd HH:mm:ss.fff zzz} [{Level:u3}] {Properties} {Message:lj}{NewLine}{Exception}";
 
-                // Diagnostic logs to File sink
+                // Diagnostic logs to File sink using "WriteTo"
                 loggerConfig.WriteTo.File("C:\\Logs\\Serilog_Diagnostic.txt", outputTemplate: templateWithSeparatePlaceholderForEachPropertyEnricher);
 
-                // Audit logs to File sink
+                // Audit logs to File sink using "AuditTo"
                 loggerConfig.AuditTo.File("C:\\Logs\\Serilog_Audit.txt", LogEventLevel.Information, outputTemplate: templateWithOnePlaceholderForAllPropertyEnrichers);
 
+
+                // TODO: Read connection string from configuration.
                 string connectionString = "Server=WL357485\\EDU_LOCAL;Database=SerilogPoC;User Id=sa;Password=TestPassword@1";
+
 
                 string logTableWithSeparateColumnForEachPropertyEnricher = "AuditLogs_Readable";
                 var auditTableColumnOptions = new ColumnOptions();
@@ -46,7 +61,6 @@ namespace Microsoft.Extensions.Hosting
                 auditTableColumnOptions.TimeStamp.ConvertToUtc = true;
                 // auditTableColumnOptions.Store.Add(StandardColumn.LogEvent); // Logs the entire log event object as a JSON.
                 auditTableColumnOptions.PrimaryKey = auditTableColumnOptions.Id;
-                
                 auditTableColumnOptions.AdditionalColumns = new List<SqlColumn>
                     {
                         new SqlColumn { ColumnName = "EventType", AllowNull = true, DataLength = 50, DataType = SqlDbType.NVarChar, NonClusteredIndex = true },
@@ -59,13 +73,13 @@ namespace Microsoft.Extensions.Hosting
                         new SqlColumn { ColumnName = "ActiveSubjectType", AllowNull = true, DataLength = 50, DataType = SqlDbType.NVarChar, NonClusteredIndex = true },
                         new SqlColumn { ColumnName = "ActiveSubjectId", AllowNull = true, DataLength = 50, DataType = SqlDbType.NVarChar, NonClusteredIndex = true },
                         new SqlColumn { ColumnName = "CorrelationId", AllowNull = true, DataLength = 50, DataType = SqlDbType.NVarChar, NonClusteredIndex = true },
-                        
+
                     };
                 auditTableColumnOptions.Properties.ExcludeAdditionalProperties = true;
-
                 // Audit logs to MSSQL sink .. Logging to the table having separate column for each enricher property
                 loggerConfig.AuditTo.MSSqlServer(connectionString, logTableWithSeparateColumnForEachPropertyEnricher,
                     columnOptions: auditTableColumnOptions, restrictedToMinimumLevel: LogEventLevel.Information, autoCreateSqlTable: true);
+
 
                 string logTableWithCommonEnricherColumn = "AuditLogs_NonReadable";
                 var auditColumnOptionsWithoutAdditionalColumns = new ColumnOptions();
@@ -74,8 +88,10 @@ namespace Microsoft.Extensions.Hosting
                 auditColumnOptionsWithoutAdditionalColumns.PrimaryKey = auditTableColumnOptions.Id;
                 auditColumnOptionsWithoutAdditionalColumns.TimeStamp.NonClusteredIndex = true;
 
-                // Audit logs to MSSQL sink .. Logging to the table having separate column for each enricher property
-                loggerConfig.AuditTo.MSSqlServer(connectionString, logTableWithCommonEnricherColumn, columnOptions: auditColumnOptionsWithoutAdditionalColumns, restrictedToMinimumLevel: LogEventLevel.Information, autoCreateSqlTable: true);
+                // Audit logs to MSSQL sink .. Logging to the table having NO separate column for each enricher property
+                loggerConfig.AuditTo.MSSqlServer(connectionString, logTableWithCommonEnricherColumn,
+                    columnOptions: auditColumnOptionsWithoutAdditionalColumns,
+                    restrictedToMinimumLevel: LogEventLevel.Information, autoCreateSqlTable: true);
             });
         }
     }

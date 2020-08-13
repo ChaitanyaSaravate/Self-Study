@@ -1,7 +1,7 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>netstandard2.0</TargetFramework>
+    <TargetFramework>netstandard2.1</TargetFramework>
   </PropertyGroup>
 
   <ItemGroup>
@@ -11,6 +11,11 @@
     <PackageReference Include="Serilog.Settings.Configuration" Version="3.1.0" />
     <PackageReference Include="Serilog.Sinks.File" Version="4.1.0" />
     <PackageReference Include="Serilog.Sinks.MSSqlServer" Version="5.1.3" />
+    <PackageReference Include="Sputnik.Database" Version="1.2.2" />
+    <PackageReference Include="Sputnik.Database.Abstractions" Version="1.2.2" />
+    <PackageReference Include="Sputnik.Database.Windows" Version="1.2.2" />
+    <PackageReference Include="Sputnik.MetaService.Client" Version="1.2.2" />
+    <PackageReference Include="Sputnik.MetaService.Client.Abstractions" Version="1.2.2" />
   </ItemGroup>
 
   <ItemGroup>

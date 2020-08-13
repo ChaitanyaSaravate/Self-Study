@@ -1,5 +1,8 @@
 using System.Collections.Generic;
+using System.Configuration;
 using System.Data;
+using Logging.SerilogClient;
+using Logging.SerilogClient.Extensions;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
@@ -18,6 +21,10 @@ namespace LoggingNetCore
 
         public static IHostBuilder CreateHostBuilder(string[] args) =>
             Host.CreateDefaultBuilder(args)
+                //.ConfigureAppConfiguration((context, builder) =>
+                //{
+                //    //string metaServiceUri = Configuration[]
+                //})
                 .ConfigureWebHostDefaults(webBuilder => { webBuilder.UseStartup<Startup>(); })
                 .ConfigureSeriLog("Serilog POC App");
     }
