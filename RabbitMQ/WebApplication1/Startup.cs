@@ -1,13 +1,16 @@
-using Logging.Abstractions;
-using Logging.SerilogClient;
-using Logging.SerilogClient.Extensions;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Microsoft.Extensions.Logging;
 
-namespace LoggingNetCore
+namespace WebApplication1
 {
     public class Startup
     {
@@ -22,20 +25,6 @@ namespace LoggingNetCore
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllers();
-            services.AddHttpContextAccessor();
-
-            services.AddMetaService();
-            services.AddMetaServiceInHttpContext(configure =>
-            {
-                configure.Domain("TESSA_META");
-                configure.MetaServiceUri("http://tecedupune.ap.tieto.com:23610");
-            });
-            services.AddDatabaseManagement();
-            services.AddDatabaseManagementOnWindows();
-            
-           // services.Configure<SerilogSqlSinkOptions>(o => { o.ModuleName = "ArchivingCulling"; });
-           // services.ConfigureOptions<SerilogPostConfigureOptions>();
-            services.AddScoped(typeof(IAuditLogger<>), typeof(AuditLogger<>));
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -46,8 +35,6 @@ namespace LoggingNetCore
                 app.UseDeveloperExceptionPage();
             }
 
-            app.UseHttpsRedirection();
-
             app.UseRouting();
 
             app.UseAuthorization();
@@ -56,8 +43,6 @@ namespace LoggingNetCore
             {
                 endpoints.MapControllers();
             });
-
-
         }
     }
 }

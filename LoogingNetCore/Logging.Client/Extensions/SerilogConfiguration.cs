@@ -40,7 +40,7 @@ namespace Logging.SerilogClient.Extensions
 
                 // Custom templates for File Sinks
                 string templateWithSeparatePlaceholderForEachPropertyEnricher =
-                    "{Timestamp:yyyy-MM-dd HH:mm:ss.fff zzz} [{Level:u3}] {SolutionArea} {AppName} {UserId} {ActiveRole} {CorrelationId} {Properties} {Message:lj}{NewLine}{Exception}";
+                    "{Timestamp:yyyy-MM-dd HH:mm:ss.fff zzz} [{Level:u3}] {SolutionArea} {AppName} {UserId} {UserRole} {CorrelationId} {Properties} {Message:lj}{NewLine}{Exception}";
 
                 string templateWithOnePlaceholderForAllPropertyEnrichers = "{Timestamp:yyyy-MM-dd HH:mm:ss.fff zzz} [{Level:u3}] {Properties} {Message:lj}{NewLine}{Exception}";
 
@@ -68,7 +68,7 @@ namespace Logging.SerilogClient.Extensions
                         new SqlColumn { ColumnName = "SolutionArea", AllowNull = false, DataLength = 50, DataType = SqlDbType.NVarChar, NonClusteredIndex = true },
                         new SqlColumn { ColumnName = "AppName", AllowNull = false, DataLength = 50, DataType = SqlDbType.NVarChar, NonClusteredIndex = true },
                         new SqlColumn { ColumnName = "UserId", AllowNull = false, DataLength = 50, DataType = SqlDbType.NVarChar, NonClusteredIndex = false },
-                        new SqlColumn { ColumnName = "ActiveRole", AllowNull = false, DataLength = 50, DataType = SqlDbType.NVarChar, NonClusteredIndex = false },
+                        new SqlColumn { ColumnName = "UserRole", AllowNull = false, DataLength = 50, DataType = SqlDbType.NVarChar, NonClusteredIndex = false },
                         new SqlColumn { ColumnName = "SourceContext", AllowNull = true, DataLength = 400, DataType = SqlDbType.NVarChar, NonClusteredIndex = false },
                         new SqlColumn { ColumnName = "ActiveSubjectType", AllowNull = true, DataLength = 50, DataType = SqlDbType.NVarChar, NonClusteredIndex = true },
                         new SqlColumn { ColumnName = "ActiveSubjectId", AllowNull = true, DataLength = 50, DataType = SqlDbType.NVarChar, NonClusteredIndex = true },

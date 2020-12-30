@@ -64,6 +64,8 @@ namespace InternalApis
                 app.UseDeveloperExceptionPage();
             }
 
+            app.UseCors(o => o.AllowAnyOrigin());
+
             app.UseRouting();
 
             app.UseAuthorization();

@@ -1,0 +1,36 @@
+<table mat-table [dataSource]="selectionDefinitions" class="mat-elevation-z8">
+    <ng-container matColumnDef="operationType">
+        <th mat-header-cell *matHeaderCellDef> No. </th>
+        <td mat-cell *matCellDef="let element"> {{element.operationType}} </td>
+      </ng-container>
+    
+      
+      <ng-container matColumnDef="title">
+        <th mat-header-cell *matHeaderCellDef> Title </th>
+        <td mat-cell *matCellDef="let element"> {{element.title}} </td>
+      </ng-container>
+    
+     
+      <ng-container matColumnDef="schoolType">
+        <th mat-header-cell *matHeaderCellDef> School Type  </th>
+        <td mat-cell *matCellDef="let element"> {{element.schoolType}} </td>
+      </ng-container>
+
+      <ng-container matColumnDef="status">
+        <th mat-header-cell *matHeaderCellDef> Status </th>
+        <td mat-cell *matCellDef="let element"> {{element.status}} </td>
+      </ng-container>
+
+      <ng-container matColumnDef="executedBy">
+        <th mat-header-cell *matHeaderCellDef> Executed By </th>
+        <td mat-cell *matCellDef="let element"> {{element.executedBy}} </td>
+      </ng-container>
+
+      <ng-container matColumnDef="executionTime">
+        <th mat-header-cell *matHeaderCellDef> Execution Time </th>
+        <td mat-cell *matCellDef="let element"> {{element.executionTime}} </td>
+      </ng-container>
+    
+      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+      <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+</table>

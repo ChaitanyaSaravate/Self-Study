@@ -10,7 +10,7 @@ namespace Logging.Abstractions
         {
             EventType,
             UserId,
-            ActiveRole,
+            UserRole,
             EventTimeStamp,
             ActiveSubjectId,
             ActiveSubjectType,

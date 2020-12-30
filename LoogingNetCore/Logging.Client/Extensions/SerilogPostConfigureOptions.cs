@@ -69,7 +69,8 @@ namespace Logging.SerilogClient
             loggerConfiguration.AuditTo.MSSqlServer(options.ConnectionString, logTableCreatedManually,
                 columnOptions: auditTableManualColumnOptions, restrictedToMinimumLevel: LogEventLevel.Information, autoCreateSqlTable: true);
 
-            loggerConfiguration.Enrich.With(new AuditLogEventEnricher(_serviceProvider.GetService<IHttpContextAccessor>()));
+          //  loggerConfiguration.Enrich.With(new AuditLogEventEnricher(_serviceProvider.GetService<IHttpContextAccessor>()));
+            //loggerConfiguration.Enrich.With(new AuditLogEventEnricher());
             Log.Logger = loggerConfiguration.CreateLogger();
         }
 

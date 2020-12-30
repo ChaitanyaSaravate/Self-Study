@@ -27,7 +27,7 @@ namespace Logging.SerilogClient
 
             logEvent.AddPropertyIfAbsent(propertyFactory.CreateProperty(PushProperties.AuditLogPushProperties.UserId.ToString(), "User Id 1"));
             logEvent.AddPropertyIfAbsent(propertyFactory.CreateProperty(PushProperties.AuditLogPushProperties.UserName.ToString(), "User Name 1"));
-            logEvent.AddPropertyIfAbsent(propertyFactory.CreateProperty(PushProperties.AuditLogPushProperties.ActiveRole.ToString(), "Test User")); 
+            logEvent.AddPropertyIfAbsent(propertyFactory.CreateProperty(PushProperties.AuditLogPushProperties.UserRole.ToString(), "Test User Role")); 
             logEvent.AddPropertyIfAbsent(propertyFactory.CreateProperty(PushProperties.AuditLogPushProperties.DomainId.ToString(), "Test DomainId"));
             logEvent.AddPropertyIfAbsent(propertyFactory.CreateProperty(PushProperties.AuditLogPushProperties.CorrelationId.ToString(), Guid.NewGuid()));
             logEvent.AddPropertyIfAbsent(propertyFactory.CreateProperty(PushProperties.AuditLogPushProperties.CustomerId.ToString(), Guid.NewGuid()));

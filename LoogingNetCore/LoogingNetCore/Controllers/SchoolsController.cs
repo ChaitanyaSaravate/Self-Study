@@ -33,6 +33,7 @@ namespace LoggingNetCore.Controllers
             _seriLogger.Verbose("Querying the database.");
             var schools = InMemoryStorage.Schools;
             _seriLogger.Verbose("Database call successful");
+            
             _auditLogger.LogBusinessEvent(ApplicationLogEvents.AuditEventTypes.SchoolsLookUp, "Read details of the {SchoolCount} schools.", schools.Count());
             HttpClient client = new HttpClient();
             var result = client.GetAsync("https://localhost:44327/weatherforecast");

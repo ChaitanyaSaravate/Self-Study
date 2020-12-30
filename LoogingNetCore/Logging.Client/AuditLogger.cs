@@ -4,7 +4,6 @@ using System.Data;
 using System.Threading.Tasks;
 using Logging.Abstractions;
 using Logging.SerilogClient.Extensions;
-using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
 using Serilog;
 using Serilog.Context;
