@@ -11,7 +11,7 @@ namespace ConsoleApplication1
 
 		public Parent()
 		{
-			Console.WriteLine("In Parent");
+			Console.WriteLine("In Parent.");
 		}
 
 		public Parent(string name)
