@@ -73,6 +73,8 @@ namespace ConsoleApplication1
 
             //			sample s = new sample(8, 2.5);
 
+            // Trial
+
             Console.ReadKey();
         }
     }
